@@ -1,6 +1,7 @@
 const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 const functions = require('./functions');
+mongoose.set('useFindAndModify', false);
 
 const userSchema = new Schema({
     email: String,
@@ -54,9 +55,9 @@ exports.list = (perPage, page) => {
     });
 };
 
-exports.patchUser = (id, userData) => {
+exports.patchUser = (email, userData) => {
     return User.findOneAndUpdate({
-        _id: id
+        _email: email
     }, userData);
 };
 

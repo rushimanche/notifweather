@@ -39,4 +39,7 @@ exports.routesConfig = function (app) {
     app.post('/home', [
         UsersController.findByEmail
     ]);
+    app.post('/update', [
+        UsersController.patchById
+    ]);
 };

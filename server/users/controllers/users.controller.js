@@ -40,7 +40,7 @@ exports.patchById = (req, res) => {
         req.body.password = salt + "$" + hash;
     }
 
-    UserModel.patchUser(req.params.userId, req.body)
+    UserModel.patchUser(req.params.email, req.body)
         .then((result) => {
             res.status(204).send({});
         });
