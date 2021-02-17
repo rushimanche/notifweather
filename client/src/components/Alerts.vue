@@ -70,8 +70,8 @@ export default {
       var authemail = {
         email: this.weather.email
       };
-      console.log(Data.loginRedirect(data.email));
-      if (Data.loginRedirect(data.email) == '') {
+      console.log(Data.loginRedirect(authemail));
+      if (Data.loginRedirect(authemail) == '') {
         alert('Email already used!');
       }
       else {
@@ -90,3 +90,25 @@ export default {
         }    
     },
     
+    newData() {
+      this.submitted = false;
+      this.email = {};
+      this.password = {};
+      this.number = {};
+      
+    }
+  }
+};
+</script>
+
+<style>
+.alerts {
+  border:10px solid #003366;
+  width: 800px;
+  margin: 0 auto;
+}
+.submit-form {
+  max-width: 300px;
+  margin: auto;
+}
+</style>
