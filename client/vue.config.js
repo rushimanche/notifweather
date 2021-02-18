@@ -3,3 +3,4 @@ module.exports = {
       port: 8081
     }
   }
+  Vue.config.silent = true

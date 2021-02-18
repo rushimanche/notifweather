@@ -18,8 +18,7 @@
       </div>
 
       <div v-else>
-        <h4>You submitted successfully!</h4>
-        <button class="btn btn-success" @click="newCity">Add</button>
+        <span v-html="HTMLoutput"></span>
       </div>
     </div>
     <br>
@@ -32,6 +31,7 @@
 <script>
 import Data from "../services/Data";
 import alerts from '../components/Alerts.vue';
+let temp = 0;
 
 export default {
   components: { alerts },
@@ -46,16 +46,18 @@ export default {
       submitted: false
     };
   },
+  created() {
+  	this.HTMLoutput = '<h4> It is ' + temp + 'degrees in ' + this.weather.city + ' </h4>';
+  },
   methods: {
     async saveInput() {
-
       var data = {
         city: this.weather.city,
       };
       try {
         const response = await Data.getWeather(data);
         this.weather.id = response.data.id;
-        console.log(parseInt(response.data));
+        temp = parseInt(response.data);
         this.submitted = true;
       } catch (e) {
         console.log(e)

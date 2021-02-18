@@ -65,11 +65,6 @@ export default {
           this.accessToken = response.data.accessToken;
           this.submitted = true;
         })
-        .catch(e => {
-          console.log(e);
-          this.accessToken = '';
-        });
-
       if (this.accessToken != ''){
         Data.loginRedirect(redirectdata)
           .then(response => {

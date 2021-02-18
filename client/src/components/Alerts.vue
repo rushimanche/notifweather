@@ -35,8 +35,8 @@
         <button @click="saveInput" class="btn btn-success">Submit</button>
       </div>
       <div v-else>
-        <h4>You submitted successfully!</h4>
-        <button class="btn btn-success" @click="newData">Add</button>
+        <h4>Account Created!</h4>
+        <button class="btn btn-success" @click="redirect">Login</button>
       </div>
     </div>
   </div>
@@ -44,6 +44,7 @@
 
 <script>
 import Data from "../services/Data";
+import router from "../router";
 
 export default {
   name: "weather-alerts",
@@ -65,18 +66,19 @@ export default {
         email: this.weather.email,
         password: this.weather.password,
         number: this.weather.number,
-        state: true
+        state: this.weather.st
       };
       var authemail = {
         email: this.weather.email
       };
-      console.log(Data.loginRedirect(authemail));
-      if (Data.loginRedirect(authemail) == '') {
+      Data.loginRedirect(authemail)
+        .then(response => {
+        this.var = response.data;
+        })
+      if ((this.var[0]) != undefined) {
         alert('Email already used!');
       }
       else {
-        alert('lol');
-        /*
         Data.createUser(data)
           .then(response => {
             this.weather.id = response.data.id;
@@ -86,16 +88,18 @@ export default {
           .catch(e => {
             console.log(e);
           });
-          */
         }    
     },
-    
     newData() {
       this.submitted = false;
       this.email = {};
       this.password = {};
       this.number = {};
       
+    },
+    redirect(){
+      console.log('hello');
+      router.push({name: 'login'});
     }
   }
 };
