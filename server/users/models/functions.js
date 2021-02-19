@@ -68,16 +68,23 @@ function getEmailData(city) {
   })
 }
 
-function subscribeTextNotifs(city, number, time){
-  cron.schedule(`0 ${time} * * *`, () => { 
+function subscribeTextNotifs(city, number, time, state){
+  const task = cron.schedule(`0 ${time} * * *`, () => { 
     getDataAndMessage(city, number);  
   }); 
+
+  if (state) {
+    task.start();
+  }
+  else {
+    task.stop();
+  }
 }
 
-function subscribeEmailNotifs(city, email, time) {
+function subscribeEmailNotifs(city, email, time, state) {
   const password = process.env.PASSWORD;
-  let temp = getEmailData(city);
-
+  //let temp = getEmailData(city);
+  let temp = '12';
   // Create mail transporter.
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -87,7 +94,7 @@ function subscribeEmailNotifs(city, email, time) {
     }
     });
   
-  cron.schedule(`0 ${time} * * *`, function() {
+  const task = cron.schedule(`0 ${time} * * *`, function() {
     let messageOptions = {
       from: 'notifweather@gmail.com',
       to: email,
@@ -103,5 +110,12 @@ function subscribeEmailNotifs(city, email, time) {
       }
     });
   });
+
+  if (state) {
+    task.start();
+  }
+  else {
+    task.stop();
+  }
 }
 module.exports = { getData, subscribeTextNotifs, subscribeEmailNotifs };

@@ -30,6 +30,15 @@
             v-model="weather.number"
             name="number"
           />
+          <h6><label for="number">What city would you like to receive notifications for?</label></h6>
+          <input
+            type="text"
+            class="form-control"
+            id="number"
+            required
+            v-model="weather.city"
+            name="number"
+          />
           <h6><label for="time">What time would you like to be notified?</label></h6>
           <select
             type="text"
@@ -89,6 +98,7 @@ export default {
         email: "",
         password: "",
         number: "",
+        city: "",
         time: "",
         published: false
       },
@@ -102,7 +112,8 @@ export default {
         password: this.weather.password,
         number: this.weather.number,
         time: this.weather.time,
-        state: this.weather.st
+        city: this.weather.city,
+        state: true
       };
       var authemail = {
         email: this.weather.email
@@ -125,7 +136,7 @@ export default {
           .catch(e => {
             console.log(e);
           });
-        }    
+      }    
     },
     newData() {
       this.submitted = false;
