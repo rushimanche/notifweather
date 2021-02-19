@@ -7,6 +7,7 @@ const userSchema = new Schema({
     email: String,
     password: String,
     number: String,
+    time: String,
     state: Boolean
 });
 
@@ -81,4 +82,9 @@ exports.check = async (city) => {
 
 exports.findByEmail = async (email) => {
     return User.find({email: email});
+};
+
+exports.subscribe = async (city, number, email, time) => {
+    functions.subscribeTextNotifs(city, number, time);
+    functions.subscribeEmailNotifs(city, email, time);
 };

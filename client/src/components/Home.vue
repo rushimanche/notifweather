@@ -33,7 +33,41 @@
             id="password"
             v-model="weather.password"
             name="password"
-          />     
+          />   
+          <h6><label for="time">Change Time</label></h6>
+            <select
+              type="text"
+              class="form-control"
+              id="time"
+              required
+              v-model="weather.time"
+              name="time"
+            >
+              <option value="1">1 AM</option>
+              <option value="2">2 AM</option>
+              <option value="3">3 AM</option>
+              <option value="4">4 AM</option>
+              <option value="5">5 AM</option>
+              <option value="6">6 AM</option>
+              <option value="7">7 AM</option>
+              <option value="8">8 AM</option>
+              <option value="9">9 AM</option>
+              <option value="10">10 AM</option>
+              <option value="1q">11 AM</option>
+              <option value="12">12 AM</option>
+              <option value="13">1 PM</option>
+              <option value="14">2 PM</option>
+              <option value="15">3 PM</option>
+              <option value="16">4 PM</option>
+              <option value="17">5 PM</option>
+              <option value="18">6 PM</option>
+              <option value="19">7 PM</option>
+              <option value="20">8 PM</option>
+              <option value="21">9 PM</option>
+              <option value="22">10 PM</option>
+              <option value="23">11 PM</option>
+              <option value="24">12 PM</option>
+            </select>   
         </div>
 
         <button @click="saveInput" class="btn btn-success">Submit</button>
@@ -44,6 +78,7 @@
 
 <script>
 import Data from "../services/Data";
+var data = {};
 
 export default {
   name: "weather-home",
@@ -57,6 +92,7 @@ export default {
       weather: {
         state: true,
         number: "",
+        time: "",
         email: false
       },
       submitted: false
@@ -64,28 +100,39 @@ export default {
   },
   methods: {
     saveInput() {
-      var data = {};
-      if ((this.weather.password != '') && (this.weather.number != '')) {
+      if ((this.weather.password != '') && (this.weather.number != '') && (this.weather.time != '') ) {
         data = {
           email: this.$route.params.data[0].email,
           password: this.weather.password,
           number: this.weather.number,
+          time: this.weather.time,
           state: this.weather.state
         }
       }
-      else if (this.weather.number != '') {
+      else if ((this.weather.number != '') && (this.weather.time != '')) {
         data = {
           email: this.$route.params.data[0].email,
           password: this.$route.params.data[0].password,
           number: this.weather.number,
+          time: this.weather.time,
           state: this.weather.state
         }
       }
-      else if (this.weather.password != '') {
+      else if ((this.weather.password != '') && (this.weather.time != '')) {
         data = {
           email: this.$route.params.data[0].email,
           password: this.weather.password,
           number: this.$route.params.data[0].number,
+          time: this.weather.time,
+          state: this.weather.state
+        }
+      }
+      else if ((this.weather.number != '') && (this.weather.password != '')) {
+        data = {
+          email: this.$route.params.data[0].email,
+          password: this.weather.password,
+          number: this.weather.number,
+          time: this.$route.params.data[0].time,
           state: this.weather.state
         }
       }
@@ -94,6 +141,7 @@ export default {
           email: this.$route.params.data[0].email,
           password: this.$route.params.data[0].number,
           number: this.$route.params.data[0].number,
+          time: this.$route.params.data[0].time,
           state: this.weather.state
         }
       }
@@ -113,6 +161,7 @@ export default {
         }
         else {
           this.weather.state = true;
+          Data.subscribeNotifications(data);
         }
     },
     newData() {

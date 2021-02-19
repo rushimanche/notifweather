@@ -16,6 +16,9 @@ class WeatherService {
   updateUser(data) {
     return http.post("/update", data);
   } 
+  subscribeNotifications(data) {
+    return http.post("/subscribe", data);
+  }
 }
 
 export default new WeatherService();

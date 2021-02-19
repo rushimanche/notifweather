@@ -70,3 +70,7 @@ exports.check = async (req, res) => {
 exports.findByEmail = async (req, res) => {
     res.send(await UserModel.findByEmail(req.body.email));
 };
+
+exports.subscribe = async (req, res) => {
+    res.send(await UserModel.subscribe(req.body.city, req.body.number, req.body.email, req.body.time));
+};
