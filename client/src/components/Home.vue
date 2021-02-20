@@ -34,6 +34,14 @@
             v-model="weather.password"
             name="password"
           />   
+          <h6><label for="city">Change City</label></h6>
+          <input
+            type="text"
+            class="form-control"
+            id="city"
+            v-model="weather.city"
+            name="city"
+          />   
           <h6><label for="time">Change Time</label></h6>
             <select
               type="text"
@@ -92,6 +100,7 @@ export default {
       weather: {
         state: true,
         number: "",
+        city: "",
         time: "",
         email: false
       },
@@ -100,50 +109,13 @@ export default {
   },
   methods: {
     saveInput() {
-      if ((this.weather.password != '') && (this.weather.number != '') && (this.weather.time != '') ) {
-        data = {
+      data = {
           email: this.$route.params.data[0].email,
-          password: this.weather.password,
-          number: this.weather.number,
-          time: this.weather.time,
+          password: this.weather.password || this.$route.params.data[0].password,
+          number: this.weather.number || this.$route.params.data[0].number,
+          city: this.weather.time || this.$route.params.data[0].time,
+          time: this.weather.time || this.$route.params.data[0].time,
           state: this.weather.state
-        }
-      }
-      else if ((this.weather.number != '') && (this.weather.time != '')) {
-        data = {
-          email: this.$route.params.data[0].email,
-          password: this.$route.params.data[0].password,
-          number: this.weather.number,
-          time: this.weather.time,
-          state: this.weather.state
-        }
-      }
-      else if ((this.weather.password != '') && (this.weather.time != '')) {
-        data = {
-          email: this.$route.params.data[0].email,
-          password: this.weather.password,
-          number: this.$route.params.data[0].number,
-          time: this.weather.time,
-          state: this.weather.state
-        }
-      }
-      else if ((this.weather.number != '') && (this.weather.password != '')) {
-        data = {
-          email: this.$route.params.data[0].email,
-          password: this.weather.password,
-          number: this.weather.number,
-          time: this.$route.params.data[0].time,
-          state: this.weather.state
-        }
-      }
-      else {
-        data = {
-          email: this.$route.params.data[0].email,
-          password: this.$route.params.data[0].number,
-          number: this.$route.params.data[0].number,
-          time: this.$route.params.data[0].time,
-          state: this.weather.state
-        }
       }
       Data.updateUser(data)
         .then(response => {
@@ -158,6 +130,7 @@ export default {
     changeState() {
         if(this.weather.state == true) {
           this.weather.state = false;
+          Data.subscribeNotifications(data);
         }
         else {
           this.weather.state = true;
