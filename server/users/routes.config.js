@@ -44,4 +44,7 @@ exports.routesConfig = function (app) {
     app.post('/subscribe', [
         UsersController.subscribe
     ]);
+    app.post('/verifyCity', [
+        UsersController.verifyCity
+    ]);
 };

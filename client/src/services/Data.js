@@ -19,6 +19,9 @@ class WeatherService {
   subscribeNotifications(data) {
     return http.post("/subscribe", data);
   }
+  verifyCity(data) {
+    return http.post("/verifyCity", data);
+  }
 }
 
 export default new WeatherService();

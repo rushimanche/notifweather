@@ -74,3 +74,7 @@ exports.findByEmail = async (req, res) => {
 exports.subscribe = async (req, res) => {
     res.send(await UserModel.subscribe(req.body.city, req.body.number, req.body.email, req.body.time, req.body.state));
 };
+
+exports.verifyCity = async (req, res) => {
+    res.send(await UserModel.verifyCity(req.body.city));
+};

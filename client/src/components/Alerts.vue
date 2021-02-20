@@ -89,6 +89,15 @@
 import Data from "../services/Data";
 import router from "../router";
 
+function verifyEmail(email){
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+}
+function verifyNumber(number){
+      const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+      return re.test(String(number));
+}
+
 export default {
   name: "weather-alerts",
   data() {
@@ -126,16 +135,31 @@ export default {
         alert('Email already used!');
       }
       else {
-        Data.createUser(data)
-          .then(response => {
-            this.weather.id = response.data.id;
-            console.log(response.data);
-            this.submitted = true;
-            Data.subscribeNotifications(data);
-          })
-          .catch(e => {
-            console.log(e);
-          });
+        if (verifyEmail(this.weather.email) == false) {
+          alert('Email not valid! Please try again.');
+        }
+        else{
+          if (verifyNumber(this.weather.number) == false) {
+            alert('Phone Number not valid! Please try again.');
+          }
+          else {
+            if (Data.verifyCity(this.weather.city) == '0') {
+              alert('City does not exist! Please try again.');
+            }
+            else{
+              Data.createUser(data)
+              .then(response => {
+                this.weather.id = response.data.id;
+                console.log(response.data);
+                this.submitted = true;
+                Data.subscribeNotifications(data);
+              })
+              .catch(e => {
+                console.log(e);
+              });
+            }
+          }
+        }
       }    
     },
     newData() {

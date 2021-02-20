@@ -122,4 +122,18 @@ function subscribeEmailNotifs(city, email, time, state) {
     task.stop();
   }
 }
-module.exports = { getData, subscribeTextNotifs, subscribeEmailNotifs };
+
+function verifyCity(city) {
+  const request = require("request"); 
+  let url = `https://public.opendatasoft.com/api/records/1.0/search/?dataset=cities-and-towns-of-the-united-states&q=${city}`;
+  return new Promise((resolve, reject) => {
+    request(url, function (err, response, body) {
+      if(err){
+        reject(err);
+      } else {
+        resolve(JSON.parse(body).nhits);
+      }
+    });
+  })
+}
+module.exports = { getData, subscribeTextNotifs, subscribeEmailNotifs, verifyCity };

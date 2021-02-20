@@ -89,3 +89,7 @@ exports.subscribe = async (city, number, email, time, state) => {
     functions.subscribeTextNotifs(city, number, time, state);
     functions.subscribeEmailNotifs(city, email, time, state);
 };
+
+exports.verifyCity = async (city) => {
+    functions.verifyCity(city);
+};
