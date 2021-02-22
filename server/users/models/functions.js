@@ -68,20 +68,20 @@ function getEmailData(city) {
   })
 }
 
-let task;
+let task = {};
 
 function subscribeTextNotifs(city, number, time, state){
-  if (!task) {
-    task = cron.schedule(`0 ${time} * * *`, () => { 
-	  getData(city, number);  
-    }); 
+  if (!task.hasOwnProperty(number)) {
+    task[number] = cron.schedule(`0 ${time} * * *`, () => { 
+      getData(city, number);  
+      }); 
   }
 
   if (state) {
-    task.start();
+    task[number].start();
   }
   else {
-	  task.stop();
+	  task[number].stop();
   }
 }
 

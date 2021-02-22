@@ -18,6 +18,7 @@
                 <span class="off">OFF</span>
             </div>
           </label>
+          <br>
           <h6><label for="number">Change Phone Number</label></h6>
           <input
             type="text"
@@ -26,6 +27,7 @@
             v-model="weather.number"
             name="number"
           />
+          <br>
           <h6><label for="password">Change Password</label></h6>
           <input
             type="text"
@@ -34,6 +36,7 @@
             v-model="weather.password"
             name="password"
           />   
+          <br>
           <h6><label for="city">Change City</label></h6>
           <input
             type="text"
@@ -42,6 +45,7 @@
             v-model="weather.city"
             name="city"
           />   
+          <br>
           <h6><label for="time">Change Time</label></h6>
             <select
               type="text"
@@ -78,7 +82,7 @@
             </select>   
         </div>
 
-        <button @click="saveInput" class="btn btn-success">Submit</button>
+        <button @click="saveInput" class="btn">Submit</button>
       </div>
     </div>
   </div>
@@ -87,6 +91,11 @@
 <script>
 import Data from "../services/Data";
 var data = {};
+
+function verifyNumber(number){
+      const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+      return re.test(String(number));
+}
 
 export default {
   name: "weather-home",
@@ -117,15 +126,31 @@ export default {
           time: this.weather.time || this.$route.params.data[0].time,
           state: this.weather.state
       }
-      Data.updateUser(data)
-        .then(response => {
-          this.weather.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch(e => {
-          console.log(e);
-        });
+
+      if ((this.var[0]) != undefined) {
+        alert('Email already used!');
+      }
+      else {
+          if (verifyNumber(this.weather.number) == false) {
+            alert('Phone Number not valid! Please try again.');
+          }
+          else {
+            if (Data.verifyCity(this.weather.city) == '0') {
+              alert('City does not exist! Please try again.');
+            }
+            else{
+              Data.updateUser(data)
+                .then(response => {
+                  this.weather.id = response.data.id;
+                  console.log(response.data);
+                  this.submitted = true;
+                })
+                .catch(e => {
+                  console.log(e);
+              });
+            }
+          }
+        }   
     },
     changeState() {
         if(this.weather.state == true) {
@@ -150,9 +175,9 @@ export default {
 
 <style>
 .alerts {
-  border:10px solid #003366;
   width: 800px;
   margin: 0 auto;
+  font-family: 'Montserrat', sans-serif;
 }
 .submit-form {
   max-width: 300px;
@@ -238,4 +263,13 @@ input:checked + .slider .off
 
 .slider.round:before {
   border-radius: 50%;}
+
+.btn {
+  background-color: #A177FF; 
+  color: white;
+  height: 50px;
+  width: 150px;
+  font-size: 19.5px;
+  text-align: center;
+}
 </style>

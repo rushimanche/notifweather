@@ -1,9 +1,10 @@
 <template>
   <div>
+    <br>
     <div class="jumbotron lookup text-center">
       <div v-if="!submitted">
         <div class="form-group">
-          <h4><label class="lookupfont" for="city">What city do you want to see the weather in?</label></h4>
+          <h4><label class="lookupfont" for="city">what city do you want to see the weather in?</label></h4>
           <input
             type="text"
             class="form-control"
@@ -14,7 +15,7 @@
           />
         </div>
 
-        <button @click="saveInput" class="btn btn-success">Submit</button>
+        <button @click="saveInput" class="btn">Submit</button>
       </div>
 
       <div v-else>
@@ -32,7 +33,6 @@
 import Data from "../services/Data";
 import alerts from '../components/Alerts.vue';
 let temp = 0;
-
 export default {
   components: { alerts },
   name: "weather-lookup",
@@ -46,9 +46,6 @@ export default {
       submitted: false
     };
   },
-  created() {
-  	this.HTMLoutput = '<h4> It is ' + temp + 'degrees in ' + this.weather.city + ' </h4>';
-  },
   methods: {
     async saveInput() {
       var data = {
@@ -59,6 +56,7 @@ export default {
         this.weather.id = response.data.id;
         temp = parseInt(response.data);
         this.submitted = true;
+        this.HTMLoutput = `<h4>It is ${temp} degrees in ${this.weather.city}!</h4>`;
       } catch (e) {
         console.log(e)
       }
@@ -73,12 +71,21 @@ export default {
 
 <style>
 .lookup {
-  border:10px solid #003366;
   width: 800px;
-  margin: 0 auto
+  margin: 0 auto;
+  background-color: #ffffe6;
+  border-radius: 45px;
 }
 .submit-form {
   max-width: 300px;
   margin: auto;
+}
+.btn {
+  background-color: #A177FF; 
+  color: white;
+  height: 50px;
+  width: 200px;
+  font-size: 18px;
+  text-align: center;
 }
 </style>

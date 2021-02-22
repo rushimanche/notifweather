@@ -1,10 +1,9 @@
 <template>
   <div class="jumbotron mycustom-jumbotron text-center">
     <div class="submit-form">
-      <div v-if="!submitted">
+      <div>
         <div class="form-group">
-
-          <h6><label for="email">Email</label></h6>
+          <h6 class="labels"><label for="email">email</label></h6>
           <input
             type="text"
             class="form-control"
@@ -13,7 +12,10 @@
             v-model="weather.email"
             name="email"
           />
-          <h6><label for="password">Password</label></h6>
+          <br>
+          <br>
+          
+          <h6 class="labels"><label for="password">password</label></h6>
           <input
             type="text"
             class="form-control"
@@ -23,12 +25,9 @@
             name="password"
           />          
         </div>
+        <br>
 
-        <button @click="saveInput" class="btn btn-success">Submit</button>
-      </div>
-      <div v-else>
-        <h4>You submitted successfully!</h4>
-        <button class="btn btn-success" @click="newData">Add</button>
+        <button @click="saveInput" class="btn">submit</button>
       </div>
     </div>
   </div>
@@ -65,7 +64,8 @@ export default {
           this.accessToken = response.data.accessToken;
           this.submitted = true;
         })
-      if (this.accessToken != ''){
+      console.log(this.accessToken);
+      if (this.accessToken != undefined){
         Data.loginRedirect(redirectdata)
           .then(response => {
           this.var = response.data;
@@ -75,6 +75,9 @@ export default {
         .catch(e => {
           console.log(e);
         });
+      }
+      else {
+        alert('Wrong credentials! Please try again.')
       }
     },
     
@@ -89,12 +92,24 @@ export default {
 
 <style>
 .mycustom-jumbotron {
-  border:10px solid #003366;
-  width: 300px;
-  margin: 0 auto
+  font-family: 'Montserrat', sans-serif;
+  width: 600px;
+  height: 400px;
+  margin: 0 auto;
 }
 .submit-form {
-  max-width: 300px;
+  max-width: 1000px;
   margin: auto;
+}
+.labels {
+  font-size: 22px;
+}
+.btn {
+  background-color: #A177FF; 
+  color: white;
+  height: 50px;
+  width: 150px;
+  font-size: 19.5px;
+  text-align: center;
 }
 </style>
