@@ -3,6 +3,7 @@
     <div class="submit-form">
       <div>
         <div class="form-group">
+          <h3 class="login">login</h3> <br>
           <h6 class="labels"><label for="email">email</label></h6>
           <input
             type="text"
@@ -94,8 +95,9 @@ export default {
 .mycustom-jumbotron {
   font-family: 'Montserrat', sans-serif;
   width: 600px;
-  height: 400px;
+  height: 500px;
   margin: 0 auto;
+  border-radius: 45px;
 }
 .submit-form {
   max-width: 1000px;
@@ -103,6 +105,9 @@ export default {
 }
 .labels {
   font-size: 22px;
+}
+.login {
+  font-size: 30px;
 }
 .btn {
   background-color: #A177FF; 

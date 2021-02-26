@@ -1,7 +1,7 @@
 <template>
   <div>
     <br>
-    <div class="jumbotron lookup text-center">
+    <div class="jumbotron lookup text-center lookup-form">
       <div v-if="!submitted">
         <div class="form-group">
           <h4><label class="lookupfont" for="city">what city do you want to see the weather in?</label></h4>
@@ -15,7 +15,7 @@
           />
         </div>
 
-        <button @click="saveInput" class="btn">Submit</button>
+        <button @click="saveInput" class="btn btn-success">Submit</button>
       </div>
 
       <div v-else>
@@ -24,17 +24,17 @@
     </div>
     <br>
     <br>
-    <alerts>
-    </alerts>
+    <lookup>
+    </lookup>
   </div>
 </template>
 
 <script>
 import Data from "../services/Data";
-import alerts from '../components/Alerts.vue';
+import lookup from '../components/Alerts.vue';
 let temp = 0;
 export default {
-  components: { alerts },
+  components: { lookup },
   name: "weather-lookup",
   data() {
     return {
@@ -80,12 +80,24 @@ export default {
   max-width: 300px;
   margin: auto;
 }
-.btn {
-  background-color: #A177FF; 
-  color: white;
-  height: 50px;
-  width: 200px;
-  font-size: 18px;
-  text-align: center;
+.lookup-form .form-control, .lookup-form .btn  {        
+  border-radius: 5px;
+	min-height: 40px;
+	transition: all 0.5s;
+	outline: none;
+}
+.lookup-form .btn {
+  background: #a177ff;
+	font-size: 18px;
+	min-height: 50px;
+  min-width: 150px;
+	border: none;
+}
+.lookup-form .btn:hover, .lookup-form .btn:focus {
+  background: #8048ff;
+	outline: none;
+}
+.lookup-form .btn i {
+	margin-right: 5px;
 }
 </style>

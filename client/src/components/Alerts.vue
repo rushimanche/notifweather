@@ -1,7 +1,6 @@
 <template>
-  <div class="contact-form">
+  <div class="alerts-form">
     <div v-if="!submitted">
-    <form>
         <h2>subscribe to notifweather</h2>
       <p class="hint-text">we will email and text you every day with weather updates in your area</p>
       <div class="form-group">
@@ -87,7 +86,6 @@
       <center>
       <button @click="saveInput" class="btn-notif btn btn-success">Submit</button>
       </center>
-    </form>
     </div>
     <div class="btn-notif" v-else>
       <h4>Account Created!</h4>
@@ -126,7 +124,7 @@ export default {
     };
   },
   methods: {
-    saveInput() {
+    async saveInput() {
       var data = {
         email: this.weather.email,
         password: this.weather.password,
@@ -138,11 +136,8 @@ export default {
       var authemail = {
         email: this.weather.email
       };
-      Data.loginRedirect(authemail)
-        .then(response => {
-        this.var = response.data;
-        })
-      if ((this.var[0]) != undefined) {
+      const authcheck = await Data.loginRedirect(authemail);
+      if ((authcheck.data) != '') {
         alert('Email already used!');
       }
       else {
@@ -161,7 +156,6 @@ export default {
               Data.createUser(data)
               .then(response => {
                 this.weather.id = response.data.id;
-                console.log(response.data);
                 this.submitted = true;
                 Data.subscribeNotifications(data);
               })
@@ -198,7 +192,6 @@ export default {
   max-width: 300px;
   margin: auto;
 }
-
 html, body {
 	min-height: 100%;
 }
@@ -218,49 +211,48 @@ body {
   border-color: #a177ff;
   box-shadow: 0 0 10px #c2a8ff;
 }
-.contact-form {
+.alerts-form {
 	width: 500px;   
   margin: 0 auto;
   padding: 40px 0;
-}
-.contact-form form {
   background: #fff;
   padding: 40px;
-  border-radius: 6px;
+  border-radius: 45px;
+  margin: 0 auto;
 }
-.contact-form h1 {
+.alerts-form h1 {
 	text-align: center;
 	font-size: 50px;
   margin: 0 0 15px;
 }
-.contact-form .form-group {
+.alerts-form .form-group {
 	margin-bottom: 20px;
 }
-.contact-form .form-control, .contact-form .btn  {        
+.alerts-form .form-control, .alerts-form .btn  {        
   border-radius: 5px;
 	min-height: 40px;
 	transition: all 0.5s;
 	outline: none;
 }
-.contact-form .btn {
+.alerts-form .btn {
   background: #a177ff;
 	font-size: 18px;
 	min-height: 50px;
   min-width: 150px;
 	border: none;
 }
-.contact-form .btn:hover, .contact-form .btn:focus {
+.alerts-form .btn:hover, .alerts-form .btn:focus {
   background: #8048ff;
 	outline: none;
 }
-.contact-form .btn i {
+.alerts-form .btn i {
 	margin-right: 5px;
 }
-.contact-form label {
-  color: #bbb;
+.alerts-form label {
+  color: rgb(172, 168, 168);
 	font-weight: normal;
 }
-.contact-form textarea {
+.alerts-form textarea {
   resize: vertical;
 }
 .hint-text {
