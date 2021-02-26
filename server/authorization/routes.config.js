@@ -15,4 +15,8 @@ exports.routesConfig = function (app) {
         AuthValidationMiddleware.validRefreshNeeded,
         AuthorizationController.login
     ]);
+
+    app.post('/login', [
+        VerifyUserMiddleware.verifyCredentials
+    ]);
 };

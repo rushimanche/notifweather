@@ -43,16 +43,15 @@ export default {
   data() {
     return {
       weather: {
-        id: null,
-        number: "",
         email: "",
+        password: "",
         published: false
       },
       submitted: false
     };
   },
   methods: {
-    saveInput() {
+    async saveInput() {
       var data = {
         email: this.weather.email,
         password: this.weather.password,
@@ -60,25 +59,22 @@ export default {
       var redirectdata = {
         email: this.weather.email
       };
-      Data.userLogin(data)
-        .then(response => {
-          this.accessToken = response.data.accessToken;
-          this.submitted = true;
-        })
-      console.log(this.accessToken);
-      if (this.accessToken != undefined){
+      let authcheck = [];
+      try {
+        authcheck = await Data.userLogin(data);
+      }
+      catch {
+        alert('Wrong credentials! Please try again.')
+      }
+      if (authcheck.data != undefined){
         Data.loginRedirect(redirectdata)
           .then(response => {
           this.var = response.data;
-          console.log(this.var);
           router.push({name: 'home', params: {data: this.var}});
         })
         .catch(e => {
           console.log(e);
         });
-      }
-      else {
-        alert('Wrong credentials! Please try again.')
       }
     },
     
