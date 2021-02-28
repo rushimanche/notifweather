@@ -91,5 +91,6 @@ exports.subscribe = async (city, number, email, time, state) => {
 };
 
 exports.verifyCity = async (city) => {
-    functions.verifyCity(city);
+    let state = await functions.verifyCity(city);
+    return(state);
 };

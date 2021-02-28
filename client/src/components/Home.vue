@@ -1,7 +1,7 @@
 <template>
   <div class="jumbotron alerts text-center">
-    <div class="submit-form">
-      <div v-if="!submitted">
+    <div class="submit-form" v-if="!submitted">
+      <div>
         <div class="form-group">
           <h6>Change State</h6>
           <label class="switch" for="state">
@@ -11,7 +11,7 @@
                 v-model="weather.state" 
                 id="state"
                 :checked="notifstate"
-                @click="changeState()"
+                @click="changeState"
             />
             <div class="slider round">
                 <span class="on">ON</span>
@@ -85,16 +85,23 @@
         <button @click="saveInput" class="btn">Submit</button>
       </div>
     </div>
+    <div class="btn-notif" v-else>
+      <h4>Account Updated!</h4>
+      <button class="btn btn-success" @click="redirecthome">Home Page</button>
+      <button class="btn btn-success" @click="redirectlogin">Login Again</button>
+    </div>
   </div>
 </template>
 
 <script>
 import Data from "../services/Data";
+import router from "../router";
+
 var data = {};
 
 function verifyNumber(number){
-      const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
-      return re.test(String(number));
+  const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+  return re.test(String(number));
 }
 
 export default {
@@ -120,37 +127,39 @@ export default {
     saveInput() {
       data = {
           email: this.$route.params.data[0].email,
-          password: this.weather.password || this.$route.params.data[0].password,
           number: this.weather.number || this.$route.params.data[0].number,
-          city: this.weather.time || this.$route.params.data[0].time,
+          city: this.weather.city || this.$route.params.data[0].city,
           time: this.weather.time || this.$route.params.data[0].time,
           state: this.weather.state
       }
+      
+      let verifyData = {
+        city: data.city
+      }
+      if (this.weather.password) {
+        data.password = this.weather.password;
+      }
 
-      if ((this.var[0]) != undefined) {
-        alert('Email already used!');
+      if (verifyNumber(data.number) == false) {
+        alert('Phone Number not valid! Please try again.');
       }
       else {
-          if (verifyNumber(this.weather.number) == false) {
-            alert('Phone Number not valid! Please try again.');
+        if (Data.verifyCity(verifyData) == '0') {
+          alert('City does not exist! Please try again.');
+        }
+        else{
+          Data.updateUser(data)
+            .then(response => {
+            console.log(response.data);
+            this.submitted = true;
+          })
+            .catch(e => {
+              console.log(e);
+            });
           }
-          else {
-            if (Data.verifyCity(this.weather.city) == '0') {
-              alert('City does not exist! Please try again.');
-            }
-            else{
-              Data.updateUser(data)
-                .then(response => {
-                  this.weather.id = response.data.id;
-                  console.log(response.data);
-                  this.submitted = true;
-                })
-                .catch(e => {
-                  console.log(e);
-              });
-            }
-          }
-        }   
+      }  
+
+      this.$forceUpdate();
     },
     changeState() {
         if(this.weather.state == true) {
@@ -168,6 +177,12 @@ export default {
       this.password = {};
       this.number = {};
       
+    },
+    redirectlogin(){
+      router.push({name: 'login'});
+    },
+    redirecthome(){
+      router.push({name: ''});
     }
   }
 };

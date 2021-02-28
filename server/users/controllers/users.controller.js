@@ -72,9 +72,13 @@ exports.findByEmail = async (req, res) => {
 };
 
 exports.subscribe = async (req, res) => {
+    UserModel.patchUser(req.params.email, req.body)
+    .then((result) => {
+        res.status(204).send({});
+    });
     res.send(await UserModel.subscribe(req.body.city, req.body.number, req.body.email, req.body.time, req.body.state));
 };
 
 exports.verifyCity = async (req, res) => {
-    res.send(await UserModel.verifyCity(req.body.city));
+    res.send('' + await UserModel.verifyCity(req.body.city));
 };

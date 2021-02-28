@@ -133,6 +133,11 @@ export default {
         city: this.weather.city,
         state: true
       };
+      
+      var notifdata = {
+        email: this.weather.email,
+        state: true
+      }
       var authemail = {
         email: this.weather.email
       };
@@ -157,7 +162,7 @@ export default {
               .then(response => {
                 this.weather.id = response.data.id;
                 this.submitted = true;
-                Data.subscribeNotifications(data);
+                Data.subscribeNotifications(notifdata);
               })
               .catch(e => {
                 console.log(e);
@@ -175,7 +180,6 @@ export default {
       
     },
     redirect(){
-      console.log('hello');
       router.push({name: 'login'});
     }
   }
