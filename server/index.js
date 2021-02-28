@@ -1,6 +1,8 @@
 require('dotenv').config()
 const config = require('./common/config/env.config.js');
 
+const path = require('path');
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -22,9 +24,22 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyParser.json());
-AuthorizationRouter.routesConfig(app);
-UsersRouter.routesConfig(app);
 
+const apiRouter = new express.Router();
+AuthorizationRouter.routesConfig(apiRouter);
+UsersRouter.routesConfig(apiRouter);
+apiRouter.use('*', (req, res) => {
+    res.status(404).send({ error: 'Not found' });
+});
+app.use('/api', apiRouter);
+
+// serving frontend assets from the dist folder
+const clientDistPath = path.resolve(__dirname, '../client/dist');
+app.use('/', express.static(clientDistPath));
+
+// server index.html on every other route as history api fallback
+const indexPath = path.resolve(clientDistPath, './index.html');
+app.use((req, res) => { res.sendFile(indexPath); });
 
 const port = process.env.PORT;
 app.listen(port, function () {
