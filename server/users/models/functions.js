@@ -1,13 +1,12 @@
 const request = require("request"); 
-require('dotenv').config()
 const nodemailer = require('nodemailer');
 const cron = require("node-cron"); 
 
-function sendNotification(msg, number) { 
-  const accountSid = process.env.ACC_SID; 
-  const authToken = process.env.AUTH_TOKEN; 
-  const fromNumber = process.env.FROM_NUMBER;
-  const client = require('twilio')(accountSid, authToken); 
+function sendNotification(msg, number) {
+  const accountSid = process.env.TWILIO_ACC_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const fromNumber = process.env.TWILIO_FROM_NUMBER;
+  const client = require('twilio')(accountSid, authToken);
 
   client.messages 
       .create({ 
@@ -19,9 +18,8 @@ function sendNotification(msg, number) {
       .done();
 }
 function getData(city) {
-  const request = require("request"); 
-  require('dotenv').config();
-  let apiKey = process.env.API_KEY;
+  const request = require("request");
+  let apiKey = process.env.TWILIO_API_KEY;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   return new Promise((resolve, reject) => {
     request(url, function (err, response, body) {
@@ -35,9 +33,8 @@ function getData(city) {
 }
   
 function getDataAndMessage(city, number) {
-  const request = require("request"); 
-  require('dotenv').config();
-  let apiKey = process.env.API_KEY;
+  const request = require("request");
+  let apiKey = process.env.TWILIO_API_KEY;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   return new Promise((resolve, reject) => {
     request(url, function (err, response, body) {
@@ -53,9 +50,8 @@ function getDataAndMessage(city, number) {
 }
 
 function getEmailData(city) {
-  const request = require("request"); 
-  require('dotenv').config();
-  let apiKey = process.env.API_KEY;
+  const request = require("request");
+  let apiKey = process.env.TWILIO_API_KEY;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   return new Promise((resolve, reject) => {
     request(url, function (err, response, body) {
@@ -86,21 +82,20 @@ function subscribeTextNotifs(city, number, time, state){
 }
 
 function subscribeEmailNotifs(city, email, time, state) {
-  const password = process.env.PASSWORD;
   //let temp = getEmailData(city);
   let temp = '12';
   // Create mail transporter.
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'notifweather@gmail.com',
-      pass: password
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASSWORD
     }
     });
   
   const task = cron.schedule(`0 ${time} * * *`, function() {
     let messageOptions = {
-      from: 'notifweather@gmail.com',
+      from: process.env.GMAIL_USER,
       to: email,
       subject: 'Daily Weather Update',
       text: `It is ${temp} degrees in ${city.charAt(0).toUpperCase() + city.slice(1)}!`
