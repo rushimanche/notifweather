@@ -1,5 +1,4 @@
 const request = require("request"); 
-require('dotenv').config()
 const nodemailer = require('nodemailer');
 const cron = require("node-cron"); 
 
@@ -20,7 +19,6 @@ function sendNotification(msg, number) {
 }
 function getData(city) {
   const request = require("request"); 
-  require('dotenv').config();
   let apiKey = process.env.API_KEY;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   return new Promise((resolve, reject) => {
@@ -36,7 +34,6 @@ function getData(city) {
   
 function getDataAndMessage(city, number) {
   const request = require("request"); 
-  require('dotenv').config();
   let apiKey = process.env.API_KEY;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   return new Promise((resolve, reject) => {
