@@ -3,7 +3,6 @@ These are all the functions for user.model.js. It makes code cleaner by separati
 */
 
 const request = require("request"); 
-require('dotenv').config()
 const nodemailer = require('nodemailer');
 const cron = require("node-cron"); 
 
@@ -26,9 +25,8 @@ function sendNotification(msg, number) {
 
 //Gets temperature for a city.
 function getData(city) {
-  const request = require("request"); 
-  require('dotenv').config();
-  let apiKey = process.env.API_KEY;
+  const request = require("request");
+  let apiKey = process.env.TWILIO_API_KEY;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   return new Promise((resolve, reject) => {
     request(url, function (err, response, body) {
@@ -43,9 +41,8 @@ function getData(city) {
 
 //Gets city weather that can be sent through email.
 function getEmailData(city) {
-  const request = require("request"); 
-  require('dotenv').config();
-  let apiKey = process.env.API_KEY;
+  const request = require("request");
+  let apiKey = process.env.TWILIO_API_KEY;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
   return new Promise((resolve, reject) => {
     request(url, function (err, response, body) {
@@ -83,14 +80,14 @@ function subscribeEmailNotifs(city, email, time, state) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'notifweather@gmail.com',
-      pass: password
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASSWORD
     }
     });
   
   const task = cron.schedule(`0 ${time} * * *`, function() {
     let messageOptions = {
-      from: 'notifweather@gmail.com',
+      from: process.env.GMAIL_USER,
       to: email,
       subject: 'Daily Weather Update',
       text: `It is ${temp} degrees in ${city.charAt(0).toUpperCase() + city.slice(1)}!`

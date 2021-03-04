@@ -1,5 +1,9 @@
 .env
+client/.env
+server/.env
 .idea
-**/node_modules
+client/dist
+client/node_modules
+server/node_modules
 data
 yarn.lock
