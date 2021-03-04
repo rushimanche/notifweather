@@ -1,8 +1,13 @@
+/*
+These are all the functions for user.model.js. It makes code cleaner by separating in newfile.
+*/
+
 const request = require("request"); 
 require('dotenv').config()
 const nodemailer = require('nodemailer');
 const cron = require("node-cron"); 
 
+//Sends SMS message with body to a number.
 function sendNotification(msg, number) { 
   const accountSid = process.env.ACC_SID; 
   const authToken = process.env.AUTH_TOKEN; 
@@ -18,6 +23,8 @@ function sendNotification(msg, number) {
       .then(message => console.log(message.sid)) 
       .done();
 }
+
+//Gets temperature for a city.
 function getData(city) {
   const request = require("request"); 
   require('dotenv').config();
@@ -33,25 +40,8 @@ function getData(city) {
     });
   })
 }
-  
-function getDataAndMessage(city, number) {
-  const request = require("request"); 
-  require('dotenv').config();
-  let apiKey = process.env.API_KEY;
-  let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
-  return new Promise((resolve, reject) => {
-    request(url, function (err, response, body) {
-      if(err){
-        reject(err);
-      } else {
-        let msg = `It is ${JSON.parse(body).main.temp} degrees in ${city.charAt(0).toUpperCase() + city.slice(1)}!`; 
-        sendNotification(msg, number);
-        resolve(JSON.parse(body).main.temp);
-      }
-    });
-  })
-}
 
+//Gets city weather that can be sent through email.
 function getEmailData(city) {
   const request = require("request"); 
   require('dotenv').config();
@@ -68,8 +58,8 @@ function getEmailData(city) {
   })
 }
 
+//Subscribes a user to text message updates.
 let task = {};
-
 function subscribeTextNotifs(city, number, time, state){
   if (!task.hasOwnProperty(number)) {
     task[number] = cron.schedule(`0 ${time} * * *`, () => { 
@@ -87,8 +77,8 @@ function subscribeTextNotifs(city, number, time, state){
 
 function subscribeEmailNotifs(city, email, time, state) {
   const password = process.env.PASSWORD;
-  //let temp = getEmailData(city);
-  let temp = '12';
+  let temp = getEmailData(city);
+
   // Create mail transporter.
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -123,6 +113,7 @@ function subscribeEmailNotifs(city, email, time, state) {
   }
 }
 
+//Verifies if a city is truly a city or not.
 function verifyCity(city) {
   const request = require("request"); 
   let url = `https://public.opendatasoft.com/api/records/1.0/search/?dataset=cities-and-towns-of-the-united-states&q=${city}`;
@@ -136,4 +127,6 @@ function verifyCity(city) {
     });
   })
 }
+
+//Exports out functions.
 module.exports = { getData, subscribeTextNotifs, subscribeEmailNotifs, verifyCity };

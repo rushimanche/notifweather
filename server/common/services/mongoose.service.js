@@ -1,3 +1,7 @@
+/*
+Config and setup for MongoDB.
+*/
+
 const mongoose = require('mongoose');
 let count = 0;
 
@@ -11,6 +15,7 @@ const options = {
     useUnifiedTopology: true
     
 };
+//this will connect to MongoDB.
 const connectWithRetry = () => {
     console.log('MongoDB connection with retry')
     mongoose.connect("mongodb://localhost:27017/rest-tutorial", options).then(()=>{

@@ -56,9 +56,12 @@ export default {
         email: this.weather.email,
         password: this.weather.password,
       };
+
+      //Data that is used in loginRedirect to get userData.
       var redirectdata = {
         email: this.weather.email
       };
+
       let authcheck = [];
       try {
         authcheck = await Data.userLogin(data);
@@ -67,9 +70,11 @@ export default {
         alert('Wrong credentials! Please try again.')
       }
       if (authcheck.data != undefined){
+        //Get userData with given email.
         Data.loginRedirect(redirectdata)
           .then(response => {
           this.var = response.data;
+          //Go to /home.
           router.push({name: 'home', params: {data: this.var}});
         })
         .catch(e => {

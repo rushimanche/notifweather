@@ -98,10 +98,13 @@
 import Data from "../services/Data";
 import router from "../router";
 
+//Verifies if inputted email is truly an email.
 function verifyEmail(email){
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
 }
+
+//Verifies if inputted phone number is truly a phone number.
 function verifyNumber(number){
       const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
       return re.test(String(number));
@@ -124,6 +127,7 @@ export default {
     };
   },
   methods: {
+    //Save Input after submission.
     async saveInput() {
       var data = {
         email: this.weather.email,
@@ -134,13 +138,17 @@ export default {
         state: true
       };
       
+      //data that is passed into subscribeNotifications.
       var notifdata = {
         email: this.weather.email,
         state: true
       }
+
+      //data that is used to check if an email is already used.
       var authemail = {
         email: this.weather.email
       };
+
       const authcheck = await Data.loginRedirect(authemail);
       if ((authcheck.data) != '') {
         alert('Email already used!');
@@ -158,6 +166,7 @@ export default {
               alert('City does not exist! Please try again.');
             }
             else{
+              //Create User in DB if all conditions are met and subscribe to notifications.
               Data.createUser(data)
               .then(response => {
                 this.weather.id = response.data.id;

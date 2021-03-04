@@ -99,6 +99,7 @@ import router from "../router";
 
 var data = {};
 
+//Verify if phone number is truly a phone number.
 function verifyNumber(number){
   const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
   return re.test(String(number));
@@ -133,9 +134,11 @@ export default {
           state: this.weather.state
       }
       
+      //Data that is used to verify if a city is truly a city.
       let verifyData = {
         city: data.city
       }
+      
       if (this.weather.password) {
         data.password = this.weather.password;
       }

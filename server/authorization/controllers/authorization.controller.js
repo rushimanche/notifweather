@@ -1,3 +1,7 @@
+/*
+This is the controller for authentication. This will be called in the routes.
+*/
+
 const jwtSecret = require('../../common/config/env.config.js').jwt_secret,
     jwt = require('jsonwebtoken');
 const crypto = require('crypto');

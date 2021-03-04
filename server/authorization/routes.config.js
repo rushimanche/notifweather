@@ -1,22 +1,15 @@
+/*
+These are the routes for authentication that can be called from the frontend.
+*/
+
 const VerifyUserMiddleware = require('./middlewares/verify.user.middleware');
 const AuthorizationController = require('./controllers/authorization.controller');
-const AuthValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 exports.routesConfig = function (app) {
 
+    //Route for UserLogin. Logs in user and verifies their credentials.
     app.post('/auth', [
         VerifyUserMiddleware.verifyAuth,
         VerifyUserMiddleware.verifyCredentials,
         AuthorizationController.login
-    ]);
-
-    app.post('/auth/refresh', [
-        AuthValidationMiddleware.validJWTNeeded,
-        AuthValidationMiddleware.verifyRefreshBodyField,
-        AuthValidationMiddleware.validRefreshNeeded,
-        AuthorizationController.login
-    ]);
-
-    app.post('/login', [
-        VerifyUserMiddleware.verifyCredentials
     ]);
 };

@@ -33,6 +33,7 @@
 import Data from "../services/Data";
 import lookup from '../components/Alerts.vue';
 let temp = 0;
+
 export default {
   components: { lookup },
   name: "weather-lookup",

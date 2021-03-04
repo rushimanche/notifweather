@@ -1,5 +1,11 @@
+/*
+This is the middleware for authentication. These functions will be called in the controller.
+*/
+
 const UserModel = require('../../users/models/users.model');
 const crypto = require('crypto');
+
+//This will check to see if all authentication credentials are present.
 
 exports.verifyAuth = (req, res, next) => {
     let errors = [];
@@ -22,6 +28,7 @@ exports.verifyAuth = (req, res, next) => {
     }
 };
 
+//This will verify the given credentials to see if the user has an account.
 exports.verifyCredentials = (req, res, next) => {
     UserModel.findByEmail(req.body.email)
         .then((user)=>{

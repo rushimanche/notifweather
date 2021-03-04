@@ -1,3 +1,7 @@
+/*
+This is the vue router that will redirect users to different pages and/or components.
+*/
+
 import Vue from "vue";
 import Router from "vue-router";
 

@@ -1,3 +1,7 @@
+/*
+These are the services that will call upon backend routes in the API.
+*/
+
 import http from "../http-common";
 
 class WeatherService {
