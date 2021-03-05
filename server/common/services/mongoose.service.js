@@ -4,6 +4,7 @@ Config and setup for MongoDB.
 
 const mongoose = require('mongoose');
 let count = 0;
+require('dotenv').config()
 
 const options = {
     autoIndex: false, // Don't build indexes
@@ -18,7 +19,7 @@ const options = {
 //this will connect to MongoDB.
 const connectWithRetry = () => {
     console.log('MongoDB connection with retry')
-    mongoose.connect(process.env.MONGO_URI, options).then(()=>{
+    mongoose.connect(process.env.MONGO_URL, options).then(()=>{
         console.log('MongoDB is connected')
     }).catch(err=>{
         console.log('MongoDB connection unsuccessful, retry after 5 seconds. ', ++count);

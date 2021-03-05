@@ -5,6 +5,7 @@ These are all the functions for user.model.js. It makes code cleaner by separati
 const request = require("request"); 
 const nodemailer = require('nodemailer');
 const cron = require("node-cron"); 
+require('dotenv').config()
 
 //Sends SMS message with body to a number.
 function sendNotification(msg, number) { 
