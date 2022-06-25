@@ -28,7 +28,7 @@
   </a>
 
   <h3 align="center">NotifWeather</h3>
-
+</div>
 
 
 ## About the Project
