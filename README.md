@@ -33,7 +33,15 @@
 
 ## About the Project
 
-This project is designed to provide daily weather updates to subscribed users so that they can be timely reminded what t
+This project is designed to provide daily weather updates to subscribed users so that they can be timely reminded what the weather is in their area. Using scheduling, the program would automatically run once deployed to a hosting service and send out texts/emails to our users. 
+
+### Built With
+
+This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+
+* [Vue.js](https://vuejs.org/)
+* [Node.js](https://nodejs.org/en/)
+* [MongoDB](https://www.mongodb.com/)
 
 ## Getting Started
 1) npm run serve for client
@@ -55,22 +63,4 @@ This project is designed to provide daily weather updates to subscribed users so
   * GMAIL_PASSWORD
   * MONGO_URI
 
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
 
